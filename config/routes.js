@@ -8,6 +8,15 @@ module.exports = function(server) {
     // Email
     const sendMail = require('../api/sendMail')
     api.post('/send-mail', sendMail)
+
+    // Redirecionamento HTTPS
+    server.use((req, res, next) => {
+        if ((req.headers['x-forwarded-proto'] || '').endsWith('http')) {
+            res.redirect(`https://${req.hostname}${req.url}`)
+        } else {
+            next()
+        }
+    })
     
     // Arquivos estáticos do front
     server.use(express.static(__dirname + '/../dist'))
