@@ -1,14 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const nodemailer = require('nodemailer')
+const _env = require('../.env')
 
 module.exports = router.post('/send-mail', (req, res, next) => {
     let transporter = nodemailer.createTransport({
-        host: process.env.MAIL_HOST,
-        port: process.env.MAIL_PORT,
+        host: _env.MAIL_HOST,
+        port: _env.MAIL_PORT,
         auth: {
-            user: process.env.MAIL_USER,
-            pass: process.env.MAIL_PASS
+            user: _env.MAIL_USER,
+            pass: _env.MAIL_PASS
         }
     })
 
@@ -23,7 +24,7 @@ module.exports = router.post('/send-mail', (req, res, next) => {
     
     let mailOptions = {
         from: req.body.email,
-        to: process.env.DESTINATION,
+        to: _env.DESTINATION,
         subject: 'Horários',
         html: body
     }
